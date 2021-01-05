@@ -32,11 +32,14 @@ jobs:
 
       - name: Install
         run: |
+          python3 -m venv venv
+          . venv/bin/activate
           pip install -r dev-requirements.txt
           pip install -e .
 
       - name: Test
         run: |
+          . venv/bin/activate
           pytest --verbose --maxfail 3 --color=yes --log-cli-level DEBUG --cov=simpervisor tests/
 
       # GitHub action reference: https://github.com/codecov/codecov-action
