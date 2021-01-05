@@ -28,7 +28,7 @@ async def test_ready():
                 async with session.get(url) as resp:
                     logging.debug('Got code {} back from {}', resp.status, url)
                     return resp.status == 200
-            except aiohttp.ClientConnectionError:
+            except (aiohttp.ClientConnectionError, ConnectionRefusedError):
                 logging.debug('Connection to {} refused', url)
                 return False
 
