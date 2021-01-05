@@ -44,6 +44,8 @@ async def test_ready():
         start_time = time.time()
         assert (await proc.ready())
         assert time.time() - start_time > ready_time
+    except TypeError:
+        pass
     finally:
         # Clean up our process after ourselves
         await proc.kill()
