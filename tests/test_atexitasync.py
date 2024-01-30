@@ -16,10 +16,6 @@ import pytest
         (signal.SIGINT, 5),
     ],
 )
-@pytest.mark.skipif(
-    sys.platform == "win32",
-    reason="Testing signals on Windows doesn't seem to be possible",
-)
 def test_atexitasync(signum, handlercount):
     """
     Test signal handlers receive signals properly
@@ -36,6 +32,9 @@ def test_atexitasync(signum, handlercount):
     # Give the process time to register signal handlers
     time.sleep(1)
     proc.send_signal(signum)
+
+    if signum == signal.SIGINT and sys.platform == "win32":
+        signum = signal.CTRL_C_EVENT
 
     # Make sure the signal is handled by our handler in the code
     stdout, stderr = proc.communicate()
